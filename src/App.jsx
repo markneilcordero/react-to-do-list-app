@@ -3,6 +3,7 @@ import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 import Filter from './Filter';
 import SearchBar from './SearchBar';
+import ThemeToggle from './ThemeToggle';
 import useLocalStorage from './useLocalStorage';
 
 // LocalStorage key
@@ -72,6 +73,10 @@ const App = () => {
   return (
     <div className="container py-5">
       <h1 className="text-center mb-4">📝 To-Do List</h1>
+      <div className="d-flex justify-content-end mb-3">
+        <ThemeToggle />
+      </div>
+
 
       <TodoForm
         onSubmit={handleSaveTask}
