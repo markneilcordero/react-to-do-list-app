@@ -115,55 +115,56 @@ const App = () => {
   });
 
   return (
-    <div className="container">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-         <h1 className="mb-0">📝 To-Do List</h1>
-         <ThemeToggle />
-      </div>
+    <>
+      <div className="container">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+           <h1 className="mb-0">📝 To-Do List</h1>
+           <ThemeToggle />
+        </div>
 
-      <TodoForm
-        onSubmit={handleSaveTask}
-        editingTask={editingTask}
-        onCancel={() => setEditingTask(null)}
-      />
+        <TodoForm
+          onSubmit={handleSaveTask}
+          editingTask={editingTask}
+          onCancel={() => setEditingTask(null)}
+        />
 
-      {/* Add StatsBar */}
-      <StatsBar tasks={tasks} />
+        {/* Add StatsBar */}
+        <StatsBar tasks={tasks} />
 
-      <div className="d-flex justify-content-between align-items-center my-3">
-        <Filter currentFilter={filter} onFilterChange={setFilter} />
-        <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-      </div>
+        <div className="d-flex justify-content-between align-items-center my-3">
+          <Filter currentFilter={filter} onFilterChange={setFilter} />
+          <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+        </div>
 
-      <TodoList
-        tasks={filteredTasks}
-        onEdit={handleEditTask}
-        onDelete={prepareDeleteTask} // Ensure this passes prepareDeleteTask
-        onToggleComplete={handleToggleComplete}
-      />
+        <TodoList
+          tasks={filteredTasks}
+          onEdit={handleEditTask}
+          onDelete={prepareDeleteTask}
+          onToggleComplete={handleToggleComplete}
+        />
 
-      {/* Add Footer */}
-      <Footer />
-
-      {/* Delete Confirmation Modal (Bootstrap 5) */}
-      <div className="modal fade" id="deleteConfirmModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" ref={modalRef}>
-        <div className="modal-dialog modal-dialog-centered"> {/* Add modal-dialog-centered */}
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              Are you sure you want to delete this task?
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={confirmDeleteTask}>Delete Task</button>
+        {/* Delete Confirmation Modal (Bootstrap 5) */}
+        <div className="modal fade" id="deleteConfirmModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" ref={modalRef}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                Are you sure you want to delete this task?
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={confirmDeleteTask}>Delete Task</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      {/* Footer outside the container for sticky layout */}
+      <Footer />
+    </>
   );
 };
 

@@ -1,0 +1,22 @@
+/* Sticky footer layout */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body, #root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1 0 auto;
+}
+
+footer {
+  margin-top: auto;
+}
+
+/* Add your existing CSS code below this line */
