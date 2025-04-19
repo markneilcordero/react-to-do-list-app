@@ -4,38 +4,43 @@ import TodoList from './TodoList';
 import Filter from './Filter';
 import SearchBar from './SearchBar';
 import ThemeToggle from './ThemeToggle';
+import StatsBar from './StatsBar'; // Import StatsBar
+import Footer from './Footer'; // Import Footer
 import useLocalStorage from './useLocalStorage';
 
 // LocalStorage key
 const STORAGE_KEY = 'react_todo_list';
 
+// Sample tasks for first-time users
+const sampleTutorialTasks = [
+  { id: Date.now() + 1, title: 'Welcome to your To-Do List!', description: 'This is a sample task to get you started.', completed: false },
+  { id: Date.now() + 2, title: 'Add new tasks using the form above', description: 'Enter a title and optional description.', completed: false },
+  { id: Date.now() + 3, title: 'Mark tasks as complete', description: 'Click the checkbox next to a task.', completed: true },
+  { id: Date.now() + 4, title: 'Edit or Delete tasks', description: 'Use the buttons on the right of each task.', completed: false },
+  { id: Date.now() + 5, title: 'Filter tasks', description: 'Use the "All", "Completed", "Incomplete" buttons.', completed: false },
+  { id: Date.now() + 6, title: 'Search your tasks', description: 'Use the search bar to find specific tasks.', completed: false },
+  { id: Date.now() + 7, title: 'Toggle Dark/Light Mode', description: 'Use the button in the top right.', completed: false },
+];
+
+
 const App = () => {
-  // State declarations
-  const [tasks, setTasks] = useLocalStorage('react_todo_list', []);
+  // State declarations - Use sample tasks as the initial value for the hook
+  const [tasks, setTasks] = useLocalStorage(STORAGE_KEY, sampleTutorialTasks);
   const [filter, setFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [editingTask, setEditingTask] = useState(null);
-
-  // Load tasks from localStorage on initial render
-  useEffect(() => {
-    const storedTasks = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    setTasks(storedTasks);
-  }, []);
-
-  // Save tasks to localStorage when tasks change
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-  }, [tasks]);
 
   // Add or update a task
   const handleSaveTask = (task) => {
     if (editingTask) {
       setTasks(prev =>
-        prev.map(t => (t.id === editingTask.id ? { ...task, id: editingTask.id } : t))
+        prev.map(t => (t.id === editingTask.id ? { ...task, id: editingTask.id, completed: editingTask.completed } : t)) // Preserve completion status on edit
       );
       setEditingTask(null);
     } else {
-      setTasks(prev => [...prev, { ...task, id: Date.now(), completed: false }]);
+      // Ensure new tasks get a unique ID even if added quickly after initial load
+      const newId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 1; // Safer ID generation
+      setTasks(prev => [...prev, { ...task, id: newId, completed: false }]);
     }
   };
 
@@ -71,18 +76,20 @@ const App = () => {
   });
 
   return (
-    <div className="container py-5">
-      <h1 className="text-center mb-4">📝 To-Do List</h1>
-      <div className="d-flex justify-content-end mb-3">
-        <ThemeToggle />
+    <div className="container">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+         <h1 className="mb-0">📝 To-Do List</h1>
+         <ThemeToggle />
       </div>
-
 
       <TodoForm
         onSubmit={handleSaveTask}
         editingTask={editingTask}
         onCancel={() => setEditingTask(null)}
       />
+
+      {/* Add StatsBar */}
+      <StatsBar tasks={tasks} />
 
       <div className="d-flex justify-content-between align-items-center my-3">
         <Filter currentFilter={filter} onFilterChange={setFilter} />
@@ -95,6 +102,9 @@ const App = () => {
         onDelete={handleDeleteTask}
         onToggleComplete={handleToggleComplete}
       />
+
+      {/* Add Footer */}
+      <Footer />
     </div>
   );
 };
