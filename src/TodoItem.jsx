@@ -26,7 +26,12 @@ const TodoItem = ({ task, onEdit, onDelete, onToggleComplete }) => {
         <button className="btn btn-outline-primary" onClick={() => onEdit(task)}>
           Edit
         </button>
-        <button className="btn btn-outline-danger" onClick={() => onDelete(id)}>
+        <button
+          className="btn btn-outline-danger"
+          onClick={() => onDelete(id)}
+          data-bs-toggle="modal"
+          data-bs-target="#deleteConfirmModal"
+        >
           Delete
         </button>
       </div>
