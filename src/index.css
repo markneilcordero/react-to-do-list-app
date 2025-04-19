@@ -13,6 +13,36 @@ body, #root {
 
 .container {
   flex: 1 0 auto;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0.5rem;
+  }
+  .card, .alert, .list-group-item {
+    padding: 1rem 0.5rem;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .d-flex.justify-content-between.align-items-center.my-3 {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+}
+
+/* Ensure footer text wraps and is readable on small screens */
+footer .container {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 footer {

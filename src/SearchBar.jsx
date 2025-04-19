@@ -4,7 +4,7 @@ const SearchBar = ({ searchQuery, onSearchChange }) => {
   return (
     <input
       type="text"
-      className="form-control"
+      className="form-control w-100 w-md-auto"
       placeholder="Search tasks..."
       value={searchQuery}
       onChange={(e) => onSearchChange(e.target.value)}
